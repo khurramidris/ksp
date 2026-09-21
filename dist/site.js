@@ -246,8 +246,7 @@
     const data = new FormData(form);
     const name = String(data.get('name') || 'there').trim();
     form.querySelector('.form-note').textContent =
-      'Thanks, ' + name + '. This preview has not sent your enquiry. Your selection: ' +
-      data.get('format') + ' · ' + data.get('level') + '.';
+      'Thanks, ' + name + '. This preview has not emailed your application. Please send the completed form to kiransohailazeemi1994@gmail.com.';
   });
 
   const canvas = document.querySelector('.page-canvas');

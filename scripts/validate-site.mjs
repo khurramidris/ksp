@@ -18,10 +18,11 @@ for (const match of html.matchAll(/href="#([^"]+)"/g)) {
   if (!ids.has(match[1])) throw new Error('Missing anchor target #' + match[1]);
 }
 
-for (const token of ['<main', '<nav', '<h1', 'prefers-reduced-motion', 'aria-expanded', 'contact-form']) {
+for (const token of ['<main', '<nav', '<h1', 'prefers-reduced-motion', 'aria-expanded', 'contact-form', 'Essentials of Sitar', 'kiransohailazeemi1994@gmail.com', 'PECHS Block 6', 'PKR 8,000', 'Teental']) {
   const source = token === 'prefers-reduced-motion' ? await readFile(resolve(dist, 'styles.css'), 'utf8') : html;
   if (!source.includes(token)) throw new Error('Required site feature is missing: ' + token);
 }
 
 if (/<svg\b/i.test(html)) throw new Error('Inline SVG artwork is not allowed in this design');
+if (html.includes('mughal-ornament')) throw new Error('Obsolete full peacock ornament is still referenced');
 console.log('Validated static site, anchors, assets, interactions and reduced-motion support.');
