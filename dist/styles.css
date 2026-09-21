@@ -20,7 +20,8 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 104px; background: var(--paper); overflow-x: clip; }
 body { margin: 0; color: var(--ink); font: 16px/1.7 var(--sans); background: var(--paper); overflow-x: hidden; }
-body::before { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at 10% 18%, #c5a77918, transparent 60%); pointer-events: none; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at 9% 18%, #c5a7792e, transparent 52%), radial-gradient(ellipse at 92% 68%, #8d55241c, transparent 48%), url('./assets/lotus-medallion.webp') 107% 8% / 380px auto no-repeat, url('./assets/lotus-medallion.webp') -120px 76% / 300px auto no-repeat; opacity: .7; filter: saturate(.72); pointer-events: none; }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; background: repeating-linear-gradient(0deg, transparent 0, transparent 5px, #76552a09 6px, transparent 7px), repeating-linear-gradient(90deg, transparent 0, transparent 8px, #76552a06 9px, transparent 10px); mix-blend-mode: multiply; opacity: .55; pointer-events: none; }
 ::selection { background: var(--wine); color: var(--paper-light); }
 a { color: inherit; text-decoration: none; }
 button, input, textarea, select { font: inherit; color: inherit; }
@@ -54,11 +55,15 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .section-header.center .lead { margin-inline: auto; }
 .section { position: relative; padding-block: var(--section-space); }
 .section:has(.margin-vine) { overflow: clip; }
-.chapter-divider { --hover-x: 0px; --hover-y: 0px; --hover-left-tilt: 0deg; --hover-right-tilt: 0deg; --hover-glow-x: 0px; --hover-glow-y: 0px; width: var(--page); margin-inline: auto; position: relative; display: flex; justify-content: center; align-items: center; gap: 0; height: clamp(120px, 20vw, 260px); overflow: visible; }
+.section::before { content: ""; position: absolute; z-index: 0; inset: 3% 0; pointer-events: none; opacity: .38; background: radial-gradient(ellipse at 20% 42%, #fff8e43d, transparent 44%), radial-gradient(ellipse at 82% 58%, #b78b4c15, transparent 48%); }
+#classes::before { background: linear-gradient(90deg, transparent, #fff8e449 28%, #d5b7801c 68%, transparent); }
+#philosophy::before { background: radial-gradient(ellipse at 50% 38%, #fff8e44a, transparent 66%); }
+#enquire::before { background: radial-gradient(ellipse at 78% 24%, #8f3c3b14, transparent 52%), radial-gradient(ellipse at 16% 76%, #fff8e42e, transparent 48%); }
+.chapter-divider { --hover-x: 0px; --hover-y: 0px; --hover-left-tilt: 0deg; --hover-right-tilt: 0deg; --hover-glow-x: 0px; --hover-glow-y: 0px; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); position: relative; display: flex; justify-content: center; align-items: center; gap: 0; height: clamp(150px, 25vw, 300px); overflow: visible; background: radial-gradient(ellipse at center, #fff8e52b, transparent 65%); }
 .chapter-divider::before { content: ""; position: absolute; inset-inline: 0; top: 50%; height: 1px; background: var(--line); transform: scaleX(var(--line-progress, 1)); transform-origin: center; }
 .chapter-divider::after { content: ""; position: absolute; z-index: 0; left: calc(50% + var(--hover-glow-x)); top: calc(50% + var(--hover-glow-y)); width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, #986e3226, transparent 68%); opacity: 0; transform: translate(-50%, -50%); transition: opacity .5s ease; pointer-events: none; }
 .chapter-divider.is-hovering::after { opacity: 1; }
-.chapter-divider .peacock-left, .chapter-divider .peacock-right { position: relative; z-index: 1; width: clamp(140px, 31vw, 390px); max-width: 100%; height: auto; opacity: 1; transition: transform .95s var(--ease), opacity .7s var(--ease), filter .55s ease; will-change: transform; }
+.chapter-divider .peacock-left, .chapter-divider .peacock-right { position: relative; z-index: 1; width: min(50vw, 840px); max-width: none; height: auto; opacity: 1; transition: transform .95s var(--ease), opacity .7s var(--ease), filter .55s ease; will-change: transform; }
 .chapter-divider .peacock-left { justify-self: end; transform: translate3d(var(--hover-x), calc(var(--divider-y, 0px) + var(--hover-y)), 0) rotate(var(--hover-left-tilt)); transform-origin: 78% 62%; }
 .chapter-divider .peacock-right { justify-self: start; transform: translate3d(var(--hover-x), calc(var(--divider-y, 0px) + var(--hover-y)), 0) rotate(var(--hover-right-tilt)); transform-origin: 22% 62%; transition-delay: 100ms; }
 .chapter-divider.is-hovering .peacock-left, .chapter-divider.is-hovering .peacock-right { filter: saturate(1.08) brightness(1.03) drop-shadow(0 10px 18px #53351912); }
@@ -76,8 +81,8 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .overture-copy .text-link { margin-top: 30px; }
 .credit-line { color: var(--gold); font: italic 1.05rem/1.5 var(--serif); margin-top: 28px; max-width: 38ch; }
 .ornament-detail { width: min(100%, 560px); margin-top: 30px; transform: translateY(var(--ornament-y, 0px)); }
-.ornament-detail--schedule { width: min(100%, 420px); margin: 28px auto -6px; }
-.ornament-detail--practice { width: min(100%, 430px); margin: 34px auto -4px; }
+.ornament-detail--schedule { width: 100vw; margin: 34px calc(50% - 50vw) -2px; }
+.ornament-detail--practice { width: min(100%, 720px); margin: 34px auto -4px; }
 .mughal-frieze { width: 100%; height: auto; opacity: .9; transform: scale(.985); transform-origin: center; transition: transform .7s var(--ease), filter .7s ease, opacity .7s ease; }
 .ornament-detail:hover .mughal-frieze, .footer-ornament:hover .mughal-frieze { opacity: 1; filter: saturate(1.08) brightness(1.02); transform: scale(1.01); }
 
@@ -106,7 +111,7 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .art-window::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 28px #39291430; pointer-events: none; }
 .art-caption { color: var(--muted); display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 16px 2px 0; }
 .art-caption > span:last-child { color: var(--gold); font-family: var(--serif); font-style: italic; font-size: 1.1rem; }
-.margin-vine { pointer-events: none; position: absolute; width: clamp(115px, 13vw, 190px); opacity: .18; z-index: 0; }
+.margin-vine { pointer-events: none; position: absolute; width: clamp(115px, 13vw, 190px); opacity: .25; z-index: 0; filter: saturate(.88); }
 .margin-vine.left { left: -76px; top: 16%; transform: translateY(var(--vine-y, 0px)); }
 .margin-vine.right { right: -76px; bottom: 6%; transform: scaleX(-1) translateY(var(--vine-y, 0px)); }
 .section > .container { position: relative; z-index: 1; }
@@ -193,7 +198,8 @@ h1 em { display: block; color: var(--lapis); }
 .form-actions .button { font-size: .875rem; }
 .form-note { grid-column: 1/-1; font-size: .875rem; color: var(--wine); }
 .footer { position: relative; padding: 45px 0 40px; }
-.footer-ornament { width: min(var(--page), 720px); margin: 0 auto 14px; }
+.footer-ornament { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-bottom: 14px; }
+.footer-ornament .mughal-frieze { width: min(100vw, 1500px); margin-inline: auto; }
 .footer-inner { width: var(--page); margin-inline: auto; padding-top: 24px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 30px; }
 .footer p { color: var(--muted); font-size: .8125rem; }
 .back-top { color: var(--wine); font-size: .875rem; border-bottom: 1px solid var(--line); }
@@ -270,7 +276,7 @@ h1 em { display: block; color: var(--lapis); }
   .eyebrow { font-size: .75rem; gap: 10px; letter-spacing: .12em; }.eyebrow::after { width: 27px; }
   .display { font-size: clamp(2.7rem, 11vw, 3.5rem); line-height: 1.08; margin-top: 16px; }
   .lead { margin-top: 20px; font-size: .9375rem; line-height: 1.85; }
-  .chapter-divider { height: 120px; gap: 0; }.chapter-divider .peacock-left, .chapter-divider .peacock-right { width: clamp(140px, 39vw, 210px); }
+  .chapter-divider { height: clamp(128px, 42vw, 220px); gap: 0; }.chapter-divider .peacock-left, .chapter-divider .peacock-right { width: 50vw; }
   .manuscript-card { padding: 48px 24px 28px; }.quote { font-size: 2.1rem; }.manuscript-card .seal { width: 64px; margin-top: -80px; }
   .class-grid { margin-top: 36px; }
   .class-grid { grid-template-columns: 1fr; gap: 18px; }.class-card { min-height: 0; padding: 28px; }
