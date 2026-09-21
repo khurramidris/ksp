@@ -1,0 +1,11 @@
+{
+  "name": "karachi-sitar-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/validate-site.mjs"
+  },
+  "devDependencies": { "vite": "8.0.13" }
+}
