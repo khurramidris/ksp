@@ -94,6 +94,14 @@
   const heroCrest = document.querySelector('.figure-crest');
   const manuscript = document.querySelector('.manuscript-card');
   const rosette = document.querySelector('.tala-painting');
+  if ('IntersectionObserver' in window && !reduced) {
+    const peacockObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+    }, { threshold: 0.28, rootMargin: '0px 0px -8% 0px' });
+    dividers.forEach(divider => peacockObserver.observe(divider));
+  } else {
+    dividers.forEach(divider => divider.classList.add('is-visible'));
+  }
   let scrollFrame = 0;
 
   const localProgress = element => {
