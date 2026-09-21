@@ -6,7 +6,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(root, 'dist');
 const html = await readFile(resolve(dist, 'index.html'), 'utf8');
 
-const required = ['styles.css', 'site.js', 'assets/hero-mehfil.webp', 'assets/lesson-pavilion.webp', 'assets/vertical-garden.webp', 'assets/lotus-medallion.webp', 'assets/peacock-left.webp', 'assets/peacock-right.webp', 'assets/sitar-mark.png'];
+const required = ['styles.css', 'site.js', 'assets/hero-mehfil.webp', 'assets/vertical-garden.webp', 'assets/lotus-medallion.webp', 'assets/peacock-left.webp', 'assets/peacock-right.webp', 'assets/sitar-mark.png'];
 for (const relative of required) {
   const file = resolve(dist, relative);
   await access(file);
@@ -18,7 +18,7 @@ for (const match of html.matchAll(/href="#([^"]+)"/g)) {
   if (!ids.has(match[1])) throw new Error('Missing anchor target #' + match[1]);
 }
 
-for (const token of ['<main', '<nav', '<h1', 'prefers-reduced-motion', 'aria-expanded', 'contact-form', 'Essentials of Sitar', 'kiransohailazeemi1994@gmail.com', 'PECHS Block 6', 'PKR 8,000', 'Teental']) {
+for (const token of ['<main', '<nav', '<h1', 'prefers-reduced-motion', 'aria-expanded', 'contact-form', 'Essentials of Sitar', 'kiransohailazeemi1994@gmail.com', 'PECHS Block 6', 'PKR 8,000', 'Merukhand']) {
   const source = token === 'prefers-reduced-motion' ? await readFile(resolve(dist, 'styles.css'), 'utf8') : html;
   if (!source.includes(token)) throw new Error('Required site feature is missing: ' + token);
 }

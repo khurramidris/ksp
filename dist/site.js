@@ -93,7 +93,6 @@
   const vines = [...document.querySelectorAll('.margin-vine')];
   const heroCrest = document.querySelector('.figure-crest');
   const manuscript = document.querySelector('.manuscript-card');
-  const rosette = document.querySelector('.tala-painting');
   if ('IntersectionObserver' in window && !reduced) {
     const peacockObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
@@ -133,7 +132,6 @@
     });
     if (heroCrest) heroCrest.style.setProperty('--crest-y', Math.min(12, scrollY * 0.035).toFixed(2) + 'px');
     if (manuscript) manuscript.style.setProperty('--card-y', ((0.5 - localProgress(manuscript)) * 12).toFixed(2) + 'px');
-    if (rosette) rosette.style.setProperty('--rosette-turn', (localProgress(rosette) * 42 - 21).toFixed(2) + 'deg');
   };
   const requestScrollUpdate = () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
@@ -141,104 +139,6 @@
   addEventListener('scroll', requestScrollUpdate, { passive: true });
   addEventListener('resize', requestScrollUpdate, { passive: true });
   updateScroll();
-
-  let audioContext;
-  const getAudio = async () => {
-    const AudioCtor = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtor) return null;
-    audioContext ||= new AudioCtor();
-    if (audioContext.state === 'suspended') await audioContext.resume();
-    return audioContext;
-  };
-  const playTone = async (frequency, duration = 1.25, volume = 0.11) => {
-    const context = await getAudio();
-    if (!context) return false;
-    const now = context.currentTime;
-    const output = context.createGain();
-    const body = context.createOscillator();
-    const shimmer = context.createOscillator();
-    const shimmerGain = context.createGain();
-    body.type = 'triangle';
-    body.frequency.setValueAtTime(frequency, now);
-    shimmer.type = 'sine';
-    shimmer.frequency.setValueAtTime(frequency * 2.005, now);
-    output.gain.setValueAtTime(0.0001, now);
-    output.gain.exponentialRampToValueAtTime(volume, now + 0.012);
-    output.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-    shimmerGain.gain.setValueAtTime(0.28, now);
-    shimmerGain.gain.exponentialRampToValueAtTime(0.001, now + duration * 0.72);
-    body.connect(output);
-    shimmer.connect(shimmerGain).connect(output);
-    output.connect(context.destination);
-    body.start(now);
-    shimmer.start(now);
-    body.stop(now + duration + 0.02);
-    shimmer.stop(now + duration + 0.02);
-    body.addEventListener('ended', () => {
-      body.disconnect();
-      shimmer.disconnect();
-      shimmerGain.disconnect();
-      output.disconnect();
-    }, { once: true });
-    return true;
-  };
-
-  const soundStatus = document.querySelector('.touch-note');
-  document.querySelectorAll('.string-btn').forEach(button => {
-    button.addEventListener('click', async () => {
-      button.classList.remove('playing');
-      void button.offsetWidth;
-      button.classList.add('playing');
-      setTimeout(() => button.classList.remove('playing'), 620);
-      try {
-        const played = await playTone(Number(button.dataset.note));
-        soundStatus.textContent = played
-          ? button.querySelector('.string-name').textContent + ' · illustrative tone'
-          : 'Sound is unavailable in this browser.';
-      } catch {
-        soundStatus.textContent = 'Sound is unavailable in this browser.';
-      }
-    });
-  });
-
-  const tala = document.querySelector('.tala');
-  const talaButton = document.querySelector('.play-tala');
-  const beatCount = document.querySelector('.beat-count');
-  const beatNames = ['sam', '2', '3', '4', 'tali', '6', '7', '8', 'khali', '10', '11', '12', 'tali', '14', '15', '16'];
-  const beatOrbits = Array.from({ length: 16 }, (_, index) => {
-    const orbit = document.createElement('span');
-    orbit.className = 'beat-orbit' + ([0, 4, 8, 12].includes(index) ? ' major' : '');
-    orbit.style.setProperty('--i', index);
-    orbit.setAttribute('aria-hidden', 'true');
-    orbit.innerHTML = '<i class="beat"></i>';
-    tala.insertBefore(orbit, tala.firstChild);
-    return orbit;
-  });
-  let beatIndex = 0;
-  let talaTimer = 0;
-  const showBeat = () => {
-    beatOrbits.forEach((beat, index) => beat.classList.toggle('active', index === beatIndex));
-    beatCount.textContent = String(beatIndex + 1).padStart(2, '0') + ' / 16 · ' + beatNames[beatIndex];
-    playTone(beatIndex === 0 ? 126 : beatIndex % 4 === 0 ? 108 : 178, 0.13, beatIndex === 0 ? 0.09 : 0.045).catch(() => {});
-    beatIndex = (beatIndex + 1) % 16;
-  };
-  const stopTala = () => {
-    clearInterval(talaTimer);
-    talaTimer = 0;
-    talaButton.setAttribute('aria-pressed', 'false');
-    talaButton.textContent = 'Play cycle';
-    beatOrbits.forEach(beat => beat.classList.remove('active'));
-  };
-  talaButton.addEventListener('click', () => {
-    if (talaTimer) {
-      stopTala();
-      return;
-    }
-    talaButton.setAttribute('aria-pressed', 'true');
-    talaButton.textContent = 'Pause cycle';
-    showBeat();
-    talaTimer = setInterval(showBeat, 500);
-  });
 
   const form = document.querySelector('#contact-form');
   form.addEventListener('submit', event => {
@@ -303,12 +203,4 @@
     });
   }
 
-  const stopSound = () => {
-    stopTala();
-    if (audioContext && audioContext.state === 'running') audioContext.suspend().catch(() => {});
-  };
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopSound();
-  });
-  addEventListener('pagehide', stopSound);
 })();
