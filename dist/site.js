@@ -101,6 +101,37 @@
   } else {
     dividers.forEach(divider => divider.classList.add('is-visible'));
   }
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer && !reduced) {
+    dividers.forEach(divider => {
+      const resetPointer = () => {
+        divider.classList.remove('is-hovering');
+        divider.style.setProperty('--hover-x', '0px');
+        divider.style.setProperty('--hover-y', '0px');
+        divider.style.setProperty('--hover-left-tilt', '0deg');
+        divider.style.setProperty('--hover-right-tilt', '0deg');
+        divider.style.setProperty('--hover-glow-x', '0px');
+        divider.style.setProperty('--hover-glow-y', '0px');
+      };
+      divider.addEventListener('pointerenter', event => {
+        if (event.pointerType && event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        divider.classList.add('is-hovering');
+      });
+      divider.addEventListener('pointermove', event => {
+        if (event.pointerType && event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        const rect = divider.getBoundingClientRect();
+        const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+        const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+        divider.style.setProperty('--hover-x', (x * 12).toFixed(2) + 'px');
+        divider.style.setProperty('--hover-y', (y * 5).toFixed(2) + 'px');
+        divider.style.setProperty('--hover-left-tilt', (x * 1.6).toFixed(2) + 'deg');
+        divider.style.setProperty('--hover-right-tilt', (-x * 1.6).toFixed(2) + 'deg');
+        divider.style.setProperty('--hover-glow-x', (x * 88).toFixed(2) + 'px');
+        divider.style.setProperty('--hover-glow-y', (y * 34).toFixed(2) + 'px');
+      });
+      divider.addEventListener('pointerleave', resetPointer);
+    });
+  }
   let scrollFrame = 0;
 
   const localProgress = element => {
