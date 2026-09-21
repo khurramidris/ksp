@@ -6,7 +6,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(root, 'dist');
 const html = await readFile(resolve(dist, 'index.html'), 'utf8');
 
-const required = ['styles.css', 'site.js', 'assets/hero-mehfil.webp', 'assets/vertical-garden.webp', 'assets/lotus-medallion.webp', 'assets/mughal-frieze.webp', 'assets/peacock-left.webp', 'assets/peacock-right.webp', 'assets/sitar-mark.png'];
+const required = ['styles.css', 'site.js', 'assets/hero-mehfil.webp', 'assets/vertical-garden.webp', 'assets/lotus-medallion.webp', 'assets/mughal-frieze.webp', 'assets/mughal-branch-rail.webp', 'assets/parchment-texture.webp', 'assets/peacock-left.webp', 'assets/peacock-right.webp', 'assets/sitar-mark.webp', 'assets/sitar-mark.png'];
 for (const relative of required) {
   const file = resolve(dist, relative);
   await access(file);

@@ -132,6 +132,62 @@
       divider.addEventListener('pointerleave', resetPointer);
     });
   }
+
+  /* Give each visible part of a chapter its own entrance vector. The observer
+     deliberately removes the state when an item leaves the viewport, so the
+     choreography plays again when someone scrolls back through the story. */
+  const choreoSelectors = [
+    'main section .section-header',
+    '.overture-copy',
+    '.manuscript-card',
+    '.ornament-detail',
+    '.class-card',
+    '.program-facts > div',
+    '.philosophy-inner',
+    '.philosophy-inner > *',
+    '.expectation-card',
+    '.conduct-note',
+    '.enquire-copy',
+    '.contact-form .field',
+    '.contact-form .form-actions',
+    '.footer-inner > *'
+  ];
+  const choreoItems = [...new Set(choreoSelectors.flatMap(selector => [...document.querySelectorAll(selector)]))];
+  const decorItems = [...document.querySelectorAll('.ornament-detail .mughal-frieze, .footer-ornament .mughal-frieze, .fine-floral, .manuscript-card .seal')];
+  const motionKinds = ['slide-left', 'lift', 'slide-right', 'drop', 'tilt', 'rise'];
+  choreoItems.forEach((element, index) => {
+    element.classList.add('choreo');
+    element.dataset.motionKind = motionKinds[index % motionKinds.length];
+    element.style.setProperty('--motion-index', String(index));
+    element.style.setProperty('--motion-delay', Math.min(420, (index % 8) * 58) + 'ms');
+  });
+  decorItems.forEach((element, index) => {
+    element.classList.add('decor-choreo');
+    element.style.setProperty('--decor-r', (index % 2 ? 3 : -3) + 'deg');
+    element.style.setProperty('--decor-y', ((index % 3) - 1) * 10 + 'px');
+  });
+  if ('IntersectionObserver' in window && !reduced) {
+    const choreoObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const target = entry.target;
+        const isDecor = target.classList.contains('decor-choreo');
+        const visibleClass = isDecor ? 'decor-visible' : 'choreo-visible';
+        const popClass = 'choreo-pop';
+        target.classList.toggle(visibleClass, entry.isIntersecting);
+        if (!isDecor && entry.isIntersecting) {
+          target.classList.remove(popClass);
+          requestAnimationFrame(() => target.classList.add(popClass));
+          clearTimeout(target._choreoTimer);
+          target._choreoTimer = setTimeout(() => target.classList.remove(popClass), 1180);
+        }
+      });
+    }, { threshold: 0.13, rootMargin: '-9% 0px -9% 0px' });
+    choreoItems.forEach(element => choreoObserver.observe(element));
+    decorItems.forEach(element => choreoObserver.observe(element));
+  } else {
+    choreoItems.forEach(element => element.classList.add('choreo-visible'));
+    decorItems.forEach(element => element.classList.add('decor-visible'));
+  }
   let scrollFrame = 0;
 
   const localProgress = element => {
@@ -163,6 +219,25 @@
     });
     if (heroCrest) heroCrest.style.setProperty('--crest-y', Math.min(12, scrollY * 0.035).toFixed(2) + 'px');
     if (manuscript) manuscript.style.setProperty('--card-y', ((0.5 - localProgress(manuscript)) * 12).toFixed(2) + 'px');
+    journeySections.forEach(section => {
+      const progress = localProgress(section);
+      section.style.setProperty('--section-progress', progress.toFixed(3));
+      section.classList.toggle('is-active', progress > .08 && progress < .92);
+    });
+    choreoItems.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      const centerOffset = Math.max(-1.2, Math.min(1.2, (innerHeight * .5 - (rect.top + rect.height * .5)) / innerHeight));
+      const direction = index % 2 ? -1 : 1;
+      const sway = Math.sin(scrollY * .0025 + index * .77) * (innerWidth < 700 ? 2.1 : 4.4);
+      element.style.setProperty('--drift-y', (centerOffset * 10).toFixed(2) + 'px');
+      element.style.setProperty('--drift-x', (sway + centerOffset * direction * 2.4).toFixed(2) + 'px');
+      element.style.setProperty('--drift-r', (centerOffset * direction * .75).toFixed(2) + 'deg');
+    });
+    decorItems.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      const centerOffset = Math.max(-1.2, Math.min(1.2, (innerHeight * .5 - (rect.top + rect.height * .5)) / innerHeight));
+      element.style.setProperty('--decor-y', (centerOffset * (innerWidth < 700 ? 10 : 17) + ((index % 2) ? 3 : -3)).toFixed(2) + 'px');
+    });
   };
   const requestScrollUpdate = () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
