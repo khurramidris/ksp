@@ -63,8 +63,9 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .chapter-divider::before { content: ""; position: absolute; z-index: 0; inset-inline: 0; top: 50%; height: 1px; background: var(--line); transform: scaleX(var(--line-progress, 1)); transform-origin: center; }
 .chapter-divider::after { content: ""; position: absolute; z-index: 0; left: calc(50% + var(--hover-glow-x)); top: calc(50% + var(--hover-glow-y)); width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, #8a6a3b15, transparent 68%); opacity: 0; transform: translate(-50%, -50%); transition: opacity .5s ease; pointer-events: none; }
 .chapter-divider.is-hovering::after { opacity: 1; }
-.chapter-divider .chapter-rail { position: absolute; z-index: 1; left: 50%; top: 50%; width: 100vw; max-width: none; height: auto; opacity: .32; pointer-events: none; transform: translate3d(-50%, -50%, 0) scaleY(.64); transform-origin: center; filter: sepia(.24) saturate(.56) contrast(.9) brightness(1.03); mix-blend-mode: multiply; transition: transform 1s var(--ease), opacity .8s var(--ease), filter .65s ease; will-change: transform; }
-.chapter-divider .peacock-left, .chapter-divider .peacock-right { position: relative; z-index: 2; width: clamp(140px, 31vw, 390px); max-width: 100%; height: auto; opacity: .46; filter: sepia(.2) saturate(.58) contrast(.88) brightness(1.04); mix-blend-mode: multiply; transition: transform .95s var(--ease), opacity .7s var(--ease), filter .55s ease; will-change: transform; }
+.chapter-divider .chapter-rail { display: none; }
+/* Each half is cropped from one master painting, so the peacocks and their vines arrive as a single illustration. */
+.chapter-divider .peacock-left, .chapter-divider .peacock-right { position: relative; z-index: 2; width: clamp(188px, 46vw, 620px); max-width: none; flex: 0 1 auto; height: auto; opacity: .46; filter: sepia(.2) saturate(.58) contrast(.88) brightness(1.04); mix-blend-mode: multiply; transition: transform .95s var(--ease), opacity .7s var(--ease), filter .55s ease; will-change: transform; }
 .chapter-divider .peacock-left { justify-self: end; transform: translate3d(var(--hover-x), calc(var(--divider-y, 0px) + var(--hover-y)), 0) rotate(var(--hover-left-tilt)); transform-origin: 78% 62%; }
 .chapter-divider .peacock-right { justify-self: start; transform: translate3d(var(--hover-x), calc(var(--divider-y, 0px) + var(--hover-y)), 0) rotate(var(--hover-right-tilt)); transform-origin: 22% 62%; transition-delay: 100ms; }
 .chapter-divider.is-hovering .chapter-rail { filter: sepia(.2) saturate(.64) contrast(.92) brightness(1.04); opacity: .38; }
@@ -87,7 +88,7 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .ornament-detail { position: relative; width: min(100%, 560px); margin-top: 30px; transform: translateY(var(--ornament-y, 0px)); }
 .ornament-detail--schedule { width: 100%; margin: 34px auto -2px; }
 .ornament-detail--practice { width: min(100%, 720px); margin: 34px auto -4px; }
-.ornament-rail { position: absolute; z-index: 0; left: 50%; top: 50%; width: 100vw; max-width: none; height: auto; opacity: .18; pointer-events: none; transform: translate3d(-50%, -50%, 0) scaleY(.55); transform-origin: center; filter: sepia(.25) saturate(.5) contrast(.88); mix-blend-mode: multiply; transition: transform .9s var(--ease), filter .7s ease, opacity .7s ease; }
+.ornament-rail { display: none; }
 .mughal-frieze { position: relative; z-index: 1; display: block; width: 100%; height: auto; margin-inline: auto; opacity: .46; transform: scale(.985); transform-origin: center; filter: sepia(.22) saturate(.58) contrast(.9) brightness(1.02); mix-blend-mode: multiply; transition: transform .7s var(--ease), filter .7s ease, opacity .7s ease; }
 .ornament-detail--schedule .mughal-frieze { width: min(100%, 470px); }
 .ornament-detail--practice .mughal-frieze { width: min(100%, 500px); }
@@ -394,15 +395,10 @@ h1 em { display: block; color: var(--lapis); }
   .display { font-size: clamp(2.7rem, 11vw, 3.5rem); line-height: 1.08; margin-top: 16px; }
   .lead { margin-top: 20px; font-size: .9375rem; line-height: 1.85; }
   .chapter-divider { width: var(--page); height: clamp(126px, 34vw, 172px); gap: 0; }
-  .chapter-divider .chapter-rail { width: 100vw; opacity: .62; transform: translate3d(-50%, -50%, 0) scaleY(.9); }
-  .js.motion .chapter-divider .chapter-rail { transform: translate3d(-50%, -50%, 0) scaleY(.9) scaleX(1.04); }
-  .js.motion .chapter-divider.is-visible .chapter-rail { transform: translate3d(-50%, calc(-50% + var(--divider-y, 0px)), 0) scaleY(.9) scaleX(1); }
-  .chapter-divider .peacock-left, .chapter-divider .peacock-right { width: clamp(140px, 39vw, 210px); }
+  .chapter-divider .peacock-left, .chapter-divider .peacock-right { width: clamp(170px, 48vw, 210px); }
   .ornament-detail { margin-top: 24px; }
   .ornament-detail--schedule { margin-top: 28px; }
   .ornament-detail--schedule .mughal-frieze, .ornament-detail--practice .mughal-frieze { width: min(100%, 360px); }
-  .ornament-rail { width: 100vw; min-width: 500px; opacity: .31; transform: translate3d(-50%, -50%, 0) scaleY(.72); }
-  .ornament-detail:hover .ornament-rail, .footer-ornament:hover .ornament-rail { transform: translate3d(-50%, -50%, 0) scaleY(.76); }
   .footer-ornament .mughal-frieze { width: min(100%, 360px); }
   .manuscript-card { padding: 48px 24px 28px; }.quote { font-size: 2.1rem; }.manuscript-card .seal { width: 64px; margin-top: -80px; }
   .class-grid { margin-top: 36px; }
