@@ -104,7 +104,7 @@ button, a, input, select, textarea { touch-action: manipulation; }
 .brand:hover .brand-lockup > img { transform: translateY(-2px) rotate(-2deg) scale(1.04); filter: saturate(1.12) brightness(1.03); }
 .brand-wordmark { display: grid; gap: 4px; min-width: 0; }
 .brand-wordmark > span { font: 600 clamp(1.04rem, 1.8vw, 1.36rem)/.9 var(--serif); letter-spacing: -.02em; white-space: nowrap; }
-.brand-wordmark small { color: var(--lapis); font: 600 .55rem/1.1 var(--sans); text-transform: lowercase; letter-spacing: .18em; white-space: nowrap; }
+.brand-wordmark small { color: var(--lapis); font: 600 .55rem/1.1 var(--sans); text-transform: uppercase; letter-spacing: .18em; white-space: nowrap; }
 .nav-links { display: flex; align-items: center; gap: 30px; font-size: .875rem; }
 .nav-links > a:not(.nav-cta) { position: relative; padding: 10px 0; }
 .nav-links > a:not(.nav-cta)::after { content: ""; position: absolute; bottom: 3px; left: 0; width: 100%; height: 1px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); }
@@ -134,7 +134,7 @@ h1 em { display: block; color: var(--lapis); }
 .hero-brand { display: grid; justify-items: center; gap: 0; }
 .hero-brand-art { width: min(470px, 82vw); height: auto; aspect-ratio: 1400 / 898; object-fit: contain; }
 .hero-brand h1 { color: var(--wine); font: 600 clamp(2.45rem, 5.4vw, 4.6rem)/.92 var(--serif); letter-spacing: -.045em; margin: 16px 0 0; }
-.hero-tagline { color: var(--lapis); font: 600 .78rem/1.2 var(--sans); letter-spacing: .24em; text-transform: lowercase; margin-top: 10px; }
+.hero-tagline { color: var(--lapis); font: 600 .78rem/1.2 var(--sans); letter-spacing: .24em; text-transform: uppercase; margin-top: 10px; }
 .hero-copy .lead { max-width: 64ch; margin: 30px auto 0; }
 .hero-copy .eyebrow { font-size: .75rem; white-space: nowrap; }
 .hero-copy .eyebrow::after { width: 30px; }
