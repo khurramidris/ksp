@@ -108,8 +108,6 @@
         divider.classList.remove('is-hovering');
         divider.style.setProperty('--hover-x', '0px');
         divider.style.setProperty('--hover-y', '0px');
-        divider.style.setProperty('--hover-left-tilt', '0deg');
-        divider.style.setProperty('--hover-right-tilt', '0deg');
         divider.style.setProperty('--hover-glow-x', '0px');
         divider.style.setProperty('--hover-glow-y', '0px');
       };
@@ -124,8 +122,6 @@
         const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
         divider.style.setProperty('--hover-x', (x * 12).toFixed(2) + 'px');
         divider.style.setProperty('--hover-y', (y * 5).toFixed(2) + 'px');
-        divider.style.setProperty('--hover-left-tilt', (x * 1.6).toFixed(2) + 'deg');
-        divider.style.setProperty('--hover-right-tilt', (-x * 1.6).toFixed(2) + 'deg');
         divider.style.setProperty('--hover-glow-x', (x * 88).toFixed(2) + 'px');
         divider.style.setProperty('--hover-glow-y', (y * 34).toFixed(2) + 'px');
       });
@@ -154,7 +150,7 @@
   ];
   const choreoItems = [...new Set(choreoSelectors.flatMap(selector => [...document.querySelectorAll(selector)]))];
   const decorItems = [...document.querySelectorAll('.ornament-detail .mughal-frieze, .footer-ornament .mughal-frieze, .fine-floral, .manuscript-card .seal')];
-  const motionKinds = ['slide-left', 'lift', 'slide-right', 'drop', 'tilt', 'rise'];
+  const motionKinds = ['slide-left', 'lift', 'slide-right', 'drop', 'rise', 'lift'];
   choreoItems.forEach((element, index) => {
     element.classList.add('choreo');
     element.dataset.motionKind = motionKinds[index % motionKinds.length];
@@ -163,7 +159,6 @@
   });
   decorItems.forEach((element, index) => {
     element.classList.add('decor-choreo');
-    element.style.setProperty('--decor-r', (index % 2 ? 3 : -3) + 'deg');
     element.style.setProperty('--decor-y', ((index % 3) - 1) * 10 + 'px');
   });
   if ('IntersectionObserver' in window && !reduced) {
@@ -231,7 +226,6 @@
       const sway = Math.sin(scrollY * .0025 + index * .77) * (innerWidth < 700 ? 2.1 : 4.4);
       element.style.setProperty('--drift-y', (centerOffset * 10).toFixed(2) + 'px');
       element.style.setProperty('--drift-x', (sway + centerOffset * direction * 2.4).toFixed(2) + 'px');
-      element.style.setProperty('--drift-r', (centerOffset * direction * .75).toFixed(2) + 'deg');
     });
     decorItems.forEach((element, index) => {
       const rect = element.getBoundingClientRect();
